@@ -1,5 +1,6 @@
 package it.unisa.c07.biblionet.preferenzeDiLettura.controller;
 
+import it.unisa.c07.biblionet.model.entity.Domanda;
 import it.unisa.c07.biblionet.model.entity.Genere;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.HaGenere;
@@ -114,6 +115,14 @@ public class PreferenzeDiLetturaController {
      */
     @RequestMapping(value = "/visualizza-questionario", method = RequestMethod.GET)
     public String visualizzaQuestionario(final Model model) {
+
+        List<Domanda> listaDomande = preferenzeDiLetturaService.getDomandeCasuali();
+
+        model.addAttribute("domanda1", listaDomande.get(0));
+        model.addAttribute("domanda2", listaDomande.get(1));
+        model.addAttribute("domanda3", listaDomande.get(2));
+        model.addAttribute("domanda4", listaDomande.get(3));
+        model.addAttribute("domanda5", listaDomande.get(4));
 
         return "questionario-supporto/visualizza-questionario-supporto";
     }
