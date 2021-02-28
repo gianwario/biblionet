@@ -1,0 +1,16 @@
+#tabs {
+    margin-top: 3%;
+}
+
+#tabs li a.active{
+    background-color: #073763;
+    color: white;
+    font-weight: bold;
+    border-bottom: 2px solid #073763;
+}
+
+.nav-link:not(.active) {
+    border-bottom: 2px solid #b20909;
+    color: #073763;
+    font-weight: bold;
+}
