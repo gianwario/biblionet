@@ -106,4 +106,15 @@ public class PreferenzeDiLetturaController {
         }
         return "autenticazione/login";
     }
+
+    /**
+     * Implementa la funzionalità visualizzare un questionario di supporto.
+     * @param model utilizzato per prendere l'utente loggato
+     * @return la pagina del questionario
+     */
+    @RequestMapping(value = "/visualizza-questionario", method = RequestMethod.GET)
+    public String visualizzaQuestionario(final Model model) {
+
+        return "questionario-supporto/visualizza-questionario-supporto";
+    }
 }
