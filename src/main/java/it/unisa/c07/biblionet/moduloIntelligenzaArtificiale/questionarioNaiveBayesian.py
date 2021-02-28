@@ -13,17 +13,19 @@ while len(questions_list) < 4:
         questions_list.append(value)
 
 
-questions_list.append(8)
-questions_list.append(9)
-questions_list.append(10)
-questions_list.append(11)
+questions_list.append(26)
+questions_list.append(27)
+questions_list.append(28)
+questions_list.append(29)
 
 excel = pd.read_excel(r'dataset/dataset.xlsx', usecols=questions_list)
+
 
 dataset = pd.DataFrame(excel.values, columns=['user_answer', 'user_answer1', 'user_answer2',
                                        'user_answer3', 'car_genre', 'car_genre1',
                                        'car_genre2', 'genre'])
 dataset = dataset.dropna()
+print(dataset)
 
 model = BayesianModel([('user_answer', 'car_genre'), ('user_answer', 'car_genre1'), ('user_answer', 'car_genre2'),
                        ('user_answer1', 'car_genre'), ('user_answer1', 'car_genre1'), ('user_answer1', 'car_genre2'),
@@ -34,15 +36,15 @@ model = BayesianModel([('user_answer', 'car_genre'), ('user_answer', 'car_genre1
 
 train_number = int(math.ceil((len(dataset) / 100) * 70))-1
 
-train_data = dataset[:train_number]
-predict_data = dataset[train_number:]
+train_data = dataset[:(len(dataset)-2)]
+predict_data = dataset[(len(dataset)-1):]
 
 predict_data.pop('genre')
 predict_data.pop('car_genre')
 predict_data.pop('car_genre1')
 predict_data.pop('car_genre2')
 
-model.fit(train_data, MaximumLikelihoodEstimator)
+model.fit(train_data, BayesianEstimator)
 
 # est = BayesianEstimator(model, dataset)
 # print(est.estimate_cpd('genre', prior_type='BDeu', equivalent_sample_size=10))

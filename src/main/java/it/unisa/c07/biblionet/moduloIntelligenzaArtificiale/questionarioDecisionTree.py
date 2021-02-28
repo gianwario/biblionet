@@ -11,7 +11,7 @@ while len(questions_list) < 4:
         questions_list.append(value)
 
 
-questions_list.append(11)
+questions_list.append(29)
 print(questions_list)
 
 excel = pd.read_excel(r'dataset/dataset.xlsx', usecols=questions_list)
