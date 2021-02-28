@@ -7,6 +7,7 @@ import it.unisa.c07.biblionet.model.dao.TicketPrestitoDAO;
 import it.unisa.c07.biblionet.model.dao.LibroDAO;
 import it.unisa.c07.biblionet.model.dao.GenereDAO;
 import it.unisa.c07.biblionet.model.dao.EventoDAO;
+import it.unisa.c07.biblionet.model.dao.DomandaDAO;
 import it.unisa.c07.biblionet.model.dao.ClubDelLibroDAO;
 import it.unisa.c07.biblionet.model.dao.utente.BibliotecaDAO;
 import it.unisa.c07.biblionet.model.dao.utente.EspertoDAO;
@@ -17,6 +18,7 @@ import it.unisa.c07.biblionet.model.entity.TicketPrestito;
 import it.unisa.c07.biblionet.model.entity.Genere;
 import it.unisa.c07.biblionet.model.entity.ClubDelLibro;
 import it.unisa.c07.biblionet.model.entity.Evento;
+import it.unisa.c07.biblionet.model.entity.Domanda;
 import it.unisa.c07.biblionet.model.entity.utente.Biblioteca;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
@@ -71,6 +73,7 @@ public class BiblionetApplication {
         libroDAO = configurableApplicationContext.getBean(LibroDAO.class);
         PossessoDAO possessoDAO = configurableApplicationContext.getBean(PossessoDAO.class);
         TicketPrestitoDAO ticketPrestitoDAO = configurableApplicationContext.getBean(TicketPrestitoDAO.class);
+        DomandaDAO domandaDAO = configurableApplicationContext.getBean(DomandaDAO.class);
 
         Logger out = Logger.getLogger(BiblionetApplication.class);
 
@@ -192,7 +195,7 @@ public class BiblionetApplication {
         bibliotecaDAO.save(biblioteca8);
         bibliotecaDAO.save(biblioteca9);
 
-        out.info("*************************** Biblioteche create 1/9 ***************************");
+        out.info("*************************** Biblioteche create 1/10 ***************************");
 
 
 
@@ -495,7 +498,7 @@ public class BiblionetApplication {
         espertoDAO.save(esperto19);
         espertoDAO.save(esperto20);
 
-        out.info("*************************** Esperti creati 2/9 ***************************");
+        out.info("*************************** Esperti creati 2/10 ***************************");
 
 
 //----------------------Definizione ed inserimento lettori--------------------------------------------------------------
@@ -670,7 +673,7 @@ public class BiblionetApplication {
         lettoreDAO.save(lettore11);
         lettoreDAO.save(lettore12);
 
-        out.info("*************************** Esperti creati 3/9 ***************************");
+        out.info("*************************** Esperti creati 3/10 ***************************");
 
 //----------------------Definizione ed inserimento generi---------------------------------------------------------------
 
@@ -825,7 +828,7 @@ public class BiblionetApplication {
         genereDAO.save(tecnologia);
         genereDAO.save(thriller);
 
-        out.info("*************************** Generi creati 4/9 ***************************");
+        out.info("*************************** Generi creati 4/10 ***************************");
 
 //----------------------Definizione ed inserimento libri----------------------------------------------------------------
 
@@ -1143,7 +1146,7 @@ public class BiblionetApplication {
                fantasy
         );        
                     
-        out.info("*************************** Libri creati 5/9 ***************************");
+        out.info("*************************** Libri creati 5/10 ***************************");
 
 //----------------------Definizione ed inserimento possessi-------------------------------------------------------------
 
@@ -1934,7 +1937,7 @@ public class BiblionetApplication {
         possessoDAO.save(possesso10B7);
         possessoDAO.save(possesso10B8);
 
-        out.info("*************************** Possessi creati 6/9 ***************************");
+        out.info("*************************** Possessi creati 6/10 ***************************");
 
 //----------------------Definizione ed inserimento ticket prestiti------------------------------------------------------
 
@@ -2023,7 +2026,7 @@ public class BiblionetApplication {
         ticketPrestitoDAO.save(ticket7);
         ticketPrestitoDAO.save(ticket8);
 
-        out.info("*************************** Ticket creati 7/9 ***************************");
+        out.info("*************************** Ticket creati 7/10 ***************************");
 
 //----------------------Definizione ed inserimento clubs----------------------------------------------------------------
 
@@ -2112,7 +2115,7 @@ public class BiblionetApplication {
         clubDelLibroDAO.save(clubDelLibro9);
         clubDelLibroDAO.save(clubDelLibro10);
 
-        out.info("*************************** Club del Libro creati 8/9 ***************************");
+        out.info("*************************** Club del Libro creati 8/10 ***************************");
 
 //----------------------Definizione ed inserimento eventi---------------------------------------------------------------
 
@@ -2222,7 +2225,7 @@ public class BiblionetApplication {
         eventoDAO.save(evento12);
         eventoDAO.save(evento13);
 
-        out.info("*************************** Eventi creati 9/9 ***************************");
+        out.info("*************************** Eventi creati 9/10 ***************************");
 
 
 //-------------------------------POPOLAMENTO MANY TO MANY E ONE TO MANY-------------------------------------------------
@@ -2437,6 +2440,211 @@ public class BiblionetApplication {
         lettoreDAO.save(lettore1);
         lettoreDAO.save(lettore2);
         lettoreDAO.save(lettore3);
+
+//----------------Creazione di domande-------------------------------------------------------------------------
+
+        out.info("*************************** Domande create 10/10 ***************************");
+
+        Domanda domanda1 = new Domanda("Quali sono le tue attività preferite da svolgere nel tempo libero?",
+                "Cinema, teatro, SerieTV",
+                "Sport, attività all'aria aperta",
+                "Computer, programming, gaming",
+                "Arte, musica, crafting"
+        );
+
+        Domanda domanda2 = new Domanda("Quale serie di aggettivi ti si addice di più?",
+                "Estroverso, socievole ed energetico",
+                "Riflessivo, logico, osservatore",
+                "Ambizioso, curioso, pianificatore",
+                "Sognatore, creativo, empatico"
+        );
+
+        Domanda domanda3 = new Domanda("Quali sono i tuoi colori preferiti?",
+                "Colori intensi e caldi",
+                "Colori chiari e/o pastello",
+                "Colori freddi e scuri",
+                "Colori vivaci e saturi"
+        );
+
+        Domanda domanda4 = new Domanda("Quali di queste è una sensazione che ti piace provare?",
+                "Forte adrenalina",
+                "Spaventarsi per un jumpscare ben fatto",
+                "Arrivare alla scoperta di nuove idee o alla risoluzione di un problema",
+                "Ridere a crepapelle"
+        );
+
+        Domanda domanda5 = new Domanda("Qual è il tuo elemento preferito?",
+                "Aria",
+                "Acqua",
+                "Terra",
+                "Fuoco"
+        );
+
+        Domanda domanda6 = new Domanda("Qual è la tua casa di Hogwarts?",
+                "Grifondoro",
+                "Serpeverde",
+                "Corvonero",
+                "Tassorosso"
+        );
+
+        Domanda domanda7 = new Domanda("Quali sono le tue SerieTV preferite?",
+                "Stranger Things, Doctor Who, Game of Thrones, Teen Wolf",
+                "La casa di Carta, Orange is the New Black, Breaking Bad, La regina degli scacchi",
+                "Glee, New Girl, How I Met Your Mother, Friends",
+                "Oprhan Black, Black Mirror, Dark, The Umbrella Accademy"
+        );
+
+        Domanda domanda8 = new Domanda("Quali bevande ordini al bar?",
+                "Cioccolata calda, tè o cappuccino",
+                "Un caffè",
+                "Drink alcolico o una birra",
+                "Coca-cola, bitter o cedrata"
+        );
+
+        Domanda domanda9 = new Domanda("Cosa ne pensi dei film horror?",
+                "Mi piacciono molto perché mi diverte spaventarmi",
+                "Li guardo senza troppi problemi, so che è tutto finto e non mi impressiono troppo",
+                "Sono troppo impressionabile, preferisco evitarli",
+                "Non li guardo perché non mi interessa il genere"
+        );
+
+        Domanda domanda10 = new Domanda("Qual è il tuo genere musicale preferito?",
+                "Indie pop, indie rock, o country",
+                "Dance, house o techno",
+                "D'orchestra, soundrack di film o altre opere",
+                "Metal, rock, o rap"
+        );
+
+        Domanda domanda11 = new Domanda("Qual è la tua idea di vacanza ideale?",
+                "D'estate in una località di mare, a divertirsi con gli amici",
+                "Luoghi ricchi di cultura e storia, visitando musei e monumenti o grandi città",
+                "Una o due settimane in un paese estero in cui non sono mai stato",
+                "Vacanza di puro relax, con pochi amici o col partner, in luoghi tranquilli"
+        );
+
+        Domanda domanda12 = new Domanda("Quale tipo di materie ti interesserebbe più studiare, studi o hai studiato?",
+                "Materie umanistiche, improntate sul piano culturale, artistico o letterale e altro",
+                "Materie sul piano giuridico o economico",
+                "Materie basate sulla chimica, biologia, medicina e altro",
+                "Materie basate sulla matematica, la fisica, l'elettronica, l'informatica e altro"
+        );
+
+        Domanda domanda13 = new Domanda("",
+                "The Sims, Among Us, Animal Crossing, Pokémon",
+                "COD, Counter Strike, Apex Legends, League of Legends",
+                "Skyrim, Final Fantasy, Dark Souls, The Legend of Zelda",
+                "Fallout, Far Cry, Metal Gear, Bioshock"
+        );
+
+        Domanda domanda14 = new Domanda("Quale fra questi paesaggi che ti ispira di più?",
+                "Foresta d'autunno",
+                "Mare al tramonto",
+                "Prato soleggiato",
+                "Città di notte"
+        );
+
+        Domanda domanda15 = new Domanda("Con chi è più probabili che ti ritrovi ad andare al cinema?",
+                "Amico",
+                "Nessuno",
+                "Partner",
+                "Fratello o sorella"
+        );
+
+        Domanda domanda16 = new Domanda("Cosa ti infastidisce di più?",
+                "La monotonia e la ripetitività",
+                "La confusione e i rumori forti",
+                "Litigare con qualcuno a cui tengo",
+                "Qualcosa non è andato secondo i miei piani"
+        );
+
+        Domanda domanda17 = new Domanda("Ti ritieni una persona empatica?",
+                "Sì, forse anche troppo",
+                "Sì, in quasi ogni caso",
+                "In alcune situazioni sì, in altre no",
+                "No, per nulla"
+        );
+
+        Domanda domanda18 = new Domanda("In cosa spenderesti maggiormente i tuoi soldi quando puoi toglierti qualche sfizio?",
+                "Libri, materiale da disegno o cartoleria",
+                "Tecnologia",
+                "Make-up e vestiario",
+                "Una cena o un pranzo fuori"
+        );
+
+        Domanda domanda19 = new Domanda("Quanto ti appassionano i misteri e gli argomenti d'inchiesta?",
+                "Molto, mi immedessimo tantissimo e mi lascio trasportare",
+                "Mi interessano abbastanza",
+                "Mi trovo di rado ad interessarmene",
+                "Ormai è molto difficile che mi coinvolgano"
+        );
+
+        Domanda domanda20 = new Domanda("Per quanto tempo riesci a mantenere un'alta concentrazione?",
+                "Per brevissimo tempo o quasi mai",
+                "Relativamente poco tempo",
+                "Abbastanza, ma se intervallato da alcune pause",
+                "Anche per periodi di tempo molto lunghi"
+        );
+
+        Domanda domanda21 = new Domanda("Come prendi solitamente il caffè?",
+                "Con un po' di zucchero",
+                "Con il latte",
+                "Amaro",
+                "Non bevo caffé"
+        );
+
+        Domanda domanda22 = new Domanda("Credi nel paranormale o ne sei interessato?",
+                "Sì, credo molto nel paranormale e conosco anche testimonianze",
+                "Credo che esistano fenomeni che non si possono spiegare",
+                "Sono molto scettico, ma non lo escludo del tutto",
+                "Assolutamente no"
+        );
+
+        Domanda domanda23 = new Domanda("Ti ritieni una persona metodica e rigorosa o più flessibile all'improvvisazione?",
+                "Mi ritengo una persona molto rigorosa",
+                "L'organizzazione è la cosa più importante, ma bisogna riuscire ad improvvisare un minimo",
+                "Credo che rigorosità e flessibilità siano importanti allo stesso modo per me",
+                "Sono molto più incline all'improvvisazione e all'istintività"
+        );
+
+        Domanda domanda24 = new Domanda("Da che tipo di storie ti lasci coinvolgere di più?",
+                "Storie con avvenimenti e ambientazioni molto lontani dalla mia realtà",
+                "Storie che sono molto vicine alla mia realtà, con cui riesco a immedesimarmi meglio",
+                "Storie che aggiungono ad un contesto reale qualcosa di fantastico o sovrannaturale",
+                "Storie che ricalcano la realtà in modo crudo e veritiero, che riprendono avvenimenti realmente accaduti"
+        );
+
+        Domanda domanda25 = new Domanda("Quanto ritieni la logica più importante dei sentimenti per prendere una decisione?",
+                "Molto, mi affido maggiormente alla logica",
+                "Credo molto di più nei miei sentimenti e nel mio istinto",
+                "Le mie scelte sono maggiormente razionali, ma senza mai ignorare del tutto i miei sentimenti",
+                "Le mie scelte sono maggiormente istintive, ma senza mai ignorare del tutto la razionalità"
+        );
+
+        domandaDAO.save(domanda1);
+        domandaDAO.save(domanda2);
+        domandaDAO.save(domanda3);
+        domandaDAO.save(domanda4);
+        domandaDAO.save(domanda5);
+        domandaDAO.save(domanda6);
+        domandaDAO.save(domanda7);
+        domandaDAO.save(domanda8);
+        domandaDAO.save(domanda9);
+        domandaDAO.save(domanda10);
+        domandaDAO.save(domanda11);
+        domandaDAO.save(domanda12);
+        domandaDAO.save(domanda13);
+        domandaDAO.save(domanda14);
+        domandaDAO.save(domanda15);
+        domandaDAO.save(domanda16);
+        domandaDAO.save(domanda17);
+        domandaDAO.save(domanda18);
+        domandaDAO.save(domanda19);
+        domandaDAO.save(domanda20);
+        domandaDAO.save(domanda21);
+        domandaDAO.save(domanda22);
+        domandaDAO.save(domanda23);
+        domandaDAO.save(domanda24);
+        domandaDAO.save(domanda25);
 
         out.info("*************************** INIZIALIZZAZIONE DI BIBLIONET TERMINATA ***************************");
 
