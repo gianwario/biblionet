@@ -10,7 +10,7 @@ import math
 #READ_EXCEL QUALI COLONNE DEVE PRENDERE (PER PRENDERE SOLO 4 DOMANDE)
 #FACCIO CICLO FINCHE' NON HO SCELTO 4 COLONNE, TUTTE DIVERSE
 questions_list = []
-while len(questions_list) < 4:
+while len(questions_list) < 5:
     value = randint(0, 24)
     if not questions_list.__contains__(value):
         questions_list.append(value)
@@ -30,7 +30,7 @@ excel = pd.read_excel(r'dataset/dataset.xlsx', usecols=questions_list)
 #MI SERVONO PER FARLI MATCHARE CON I PARAMETRI CHE USERA' IL MODELLO BAYESIANO
 #DOPO FACCIO DROPNA PER SICUREZZA (NEL CASO SI PRENDA RIGHE NA DALL'EXCEL)
 dataset = pd.DataFrame(excel.values, columns=['user_answer', 'user_answer1', 'user_answer2',
-                                       'user_answer3', 'car_genre', 'car_genre1',
+                                       'user_answer3', 'user_answer4', 'car_genre', 'car_genre1',
                                        'car_genre2', 'genre'])
 dataset = dataset.dropna()
 
@@ -39,6 +39,7 @@ model = BayesianModel([('user_answer', 'car_genre'), ('user_answer', 'car_genre1
                        ('user_answer1', 'car_genre'), ('user_answer1', 'car_genre1'), ('user_answer1', 'car_genre2'),
                        ('user_answer2', 'car_genre'), ('user_answer2', 'car_genre1'), ('user_answer2', 'car_genre2'),
                        ('user_answer3', 'car_genre'), ('user_answer3', 'car_genre1'), ('user_answer3', 'car_genre2'),
+                       ('user_answer4', 'car_genre'), ('user_answer4', 'car_genre1'), ('user_answer4', 'car_genre2'),
                        ('car_genre', 'genre'), ('car_genre1', 'genre'), ('car_genre2', 'genre')])
 
 
@@ -68,8 +69,10 @@ print(predict_data['user_answer'])
 print(predict_data['user_answer1'])
 print(predict_data['user_answer2'])
 print(predict_data['user_answer3'])
+print(predict_data['user_answer4'])
 
 predicted = model.predict(predict_data)
+print("PREDIZIONE DEL GENERE DATE LE DOMANDE:")
 print(predicted)
 
 
@@ -79,14 +82,34 @@ print(predicted)
 #POI STAMPO IL GENERE PREDICTATO (LUI PREDICTA TUTTI I NODI DELLA RETE
 #CHE NON TROVA NEI DATI IN INPUT AL PREDICT, QUINDI IN QUESTO CASO
 #HA PREDICTATO ANCHE LE RISPOSTE
-to_predict = dataset[123:]
+to_predict = dataset[153:]
 to_predict.pop('user_answer')
 to_predict.pop('user_answer1')
 to_predict.pop('user_answer2')
 to_predict.pop('user_answer3')
+to_predict.pop('user_answer4')
 to_predict.pop('genre')
+
 print(to_predict)
 
 predicted = model.predict(to_predict)
-
+print("PREDIZIONE DEL GENERE DATE LE CARATTERISTICHE:")
 print(predicted['genre'])
+
+to_predict2 = pd.DataFrame({'user_answer' : [""],
+                            'user_answer1' : [""],
+                            'user_answer2' : [""],
+                            'user_answer3' : [""],
+                            'user_answer4' : [""],
+                            'car_genre' : ["Magico"],
+                            'car_genre1' : ["Emozionante"],
+                            'car_genre2' : ["Luminoso"]})
+
+to_predict2.pop('user_answer')
+to_predict2.pop('user_answer2')
+to_predict2.pop('user_answer3')
+to_predict2.pop('user_answer4')
+to_predict2.pop('user_answer1')
+print(to_predict2)
+
+print(model.predict(to_predict2))
