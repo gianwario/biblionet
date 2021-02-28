@@ -1,5 +1,6 @@
 package it.unisa.c07.biblionet.preferenzeDiLettura.service;
 
+import it.unisa.c07.biblionet.model.entity.Domanda;
 import it.unisa.c07.biblionet.model.entity.Genere;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
@@ -43,4 +44,11 @@ public interface PreferenzeDiLetturaService {
      * @param lettore il lettore a cui inserirli
      */
     void addGeneriLettore(List<Genere> generi, Lettore lettore);
+
+    /**
+     * Implementa la funzionalità di generare 5 domande casuali
+     * per un questionario di supporto.
+     * @return la lista di domande
+     */
+    List<Domanda> getDomandeCasuali();
 }

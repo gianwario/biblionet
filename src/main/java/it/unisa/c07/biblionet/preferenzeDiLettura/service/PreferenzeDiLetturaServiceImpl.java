@@ -1,8 +1,10 @@
 package it.unisa.c07.biblionet.preferenzeDiLettura.service;
 
+import it.unisa.c07.biblionet.model.dao.DomandaDAO;
 import it.unisa.c07.biblionet.model.dao.GenereDAO;
 import it.unisa.c07.biblionet.model.dao.utente.EspertoDAO;
 import it.unisa.c07.biblionet.model.dao.utente.LettoreDAO;
+import it.unisa.c07.biblionet.model.entity.Domanda;
 import it.unisa.c07.biblionet.model.entity.Genere;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
@@ -10,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -35,6 +38,11 @@ public class PreferenzeDiLetturaServiceImpl implements
      * Si occupa delle funzioni CRUD per l'utente.
      */
     private final LettoreDAO lettoreDAO;
+
+    /**
+     * Si occupa delle funzioni CRUD per la domanda.
+     */
+    private final DomandaDAO domandaDAO;
 
     /**
      * Implementa la funzionalità di restituire tutti i generi
@@ -92,6 +100,23 @@ public class PreferenzeDiLetturaServiceImpl implements
                                  final Lettore lettore) {
         lettore.setGeneri(generi);
         lettoreDAO.save(lettore);
+    }
+
+    /**
+     * Implementa la funzionalità di generare 5 domande casuali
+     * per un questionario di supporto.
+     * @return la lista di domande
+     */
+    @Override
+    public List<Domanda> getDomandeCasuali() {
+        List<Domanda> tmp = domandaDAO.findAll();
+        Collections.shuffle(tmp);
+        List<Domanda> listaDomande = new ArrayList<>();
+
+        for(int i = 0; i < 5; i++)
+            listaDomande.add(tmp.get(i));
+
+        return listaDomande;
     }
 
 
