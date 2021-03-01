@@ -10,103 +10,65 @@ import matplotlib.pyplot as plt
 from pgmpy.inference import VariableElimination
 
 
-#CREO UNA LISTA DI INTERI CHE USERO' PER DIRE AL METODO
-#READ_EXCEL QUALI COLONNE DEVE PRENDERE (PER PRENDERE SOLO 4 DOMANDE)
-#FACCIO CICLO FINCHE' NON HO SCELTO 4 COLONNE, TUTTE DIVERSE
-# questions_list = []
-# while len(questions_list) < 5:
-#     value = randint(0, 24)
-#     if not questions_list.__contains__(value):
-#         questions_list.append(value)
+#Leggo dall'excel il dataset
+excel = pd.read_excel(r'dataset/dataset.xlsx')
 
-#INSERISCO MANUALMENTE NELL'ARRAY LE ULTIME 4 COLONNE CHE
-#CONTENGONO CARATTERISTICHE E GENERE
-# questions_list.append(25)
-# questions_list.append(26)
-# questions_list.append(27)
-# questions_list.append(28)
+#Creo un DataFrame con una risposta, tre caratteristiche e un genere
+i = 0
+dataset = pd.DataFrame(columns=['answer', 'char1', 'char2', 'char3', 'genre'])
 
-#LEGGO DALL'EXCEL USANDO SOLO LE COLONNE I CUI INDICI SONO IN QUELL'ARRAY
-excel = pd.read_excel(r'dataset/formatted_dataset.xlsx')
+#Costruisco dall'excel il dataframe, salvandomi per ogni riga una risposta, le caratteristiche e il genere
+for row in excel.values:
+    for column in range(25):
+        dataset.loc[i, 'answer'] = row[column]
+        dataset.loc[i, 'char1'] = row[25]
+        dataset.loc[i, 'char2'] = row[26]
+        dataset.loc[i, 'char3'] = row[27]
+        dataset.loc[i, 'genre'] = row[28]
+        i += 1
 
-#CREO UN DATAFRAME CHIAMATO DATASET IN CUI METTO I VALORI PRESI
-#DALLE RIGHE DELL'EXCEL LETTO E IMPOSTO LE COLONNE COI NOMI CHE
-#MI SERVONO PER FARLI MATCHARE CON I PARAMETRI CHE USERA' IL MODELLO BAYESIANO
-#DOPO FACCIO DROPNA PER SICUREZZA (NEL CASO SI PRENDA RIGHE NA DALL'EXCEL)
-dataset = pd.DataFrame(excel.values, columns=['user_answer', 'user_answer1', 'user_answer2',
-                                       'user_answer3', 'user_answer4', 'car_genre', 'car_genre1',
-                                       'car_genre2', 'genre'])
-dataset = dataset.dropna()
+print(dataset[:50])
 
-#CREO LA RETE BAEYESIANA. ANSWERS -> CARATTERISTICHE -> GENERE
-model = BayesianModel([('user_answer', 'car_genre'), ('user_answer', 'car_genre1'), ('user_answer', 'car_genre2'),
-                       ('user_answer1', 'car_genre'), ('user_answer1', 'car_genre1'), ('user_answer1', 'car_genre2'),
-                       ('user_answer2', 'car_genre'), ('user_answer2', 'car_genre1'), ('user_answer2', 'car_genre2'),
-                       ('user_answer3', 'car_genre'), ('user_answer3', 'car_genre1'), ('user_answer3', 'car_genre2'),
-                       ('user_answer4', 'car_genre'), ('user_answer4', 'car_genre1'), ('user_answer4', 'car_genre2'),
-                       ('car_genre', 'genre'), ('car_genre1', 'genre'), ('car_genre2', 'genre')])
+#Costruisco la rete bayesiana ANSWER -> CHARACTERISTICS -> GENRE
+model = BayesianModel([('answer', 'char1'), ('answer', 'char2'), ('answer', 'char3'),
+                       ('char1', 'genre'), ('char2', 'genre'), ('char3', 'genre')])
 nx.draw(model, with_labels = True)
-plt.show()
 
-#CALCOLO IL 90% DELLE RIGHE DEL DATASET E LE USO PER TRAINARE
-#IL RESTANTE 10% VERRA' USATO PER PROVATE A FARE PREDICT
-#DATASET[:X] SIGNIFICA PRENDI TUTTE LE RIGHE FINO ALLA RIGA X
-#DATASET[X:] SIGNIFICA PRENDI TUTTE LE RIGHE DA X IN POI
+#Prelevo il 90% dei dati per il training e il 10% è lasciato per il testing
 train_number = int(math.ceil((len(dataset) / 100) * 90))-1
 train_data = dataset[:train_number]
 predict_data = dataset[train_number:]
 
-
-#FACCIO FITTING (TRAINING) DEL MODELLO E USO UN BAYESIAN ESTIMATOR
-#DA DEI WARNING IGNORA
-
-model.fit(train_data, BayesianEstimator, state_names=['user_answer', 'user_answer1', 'user_answer2',
-                                       'user_answer3', 'user_answer4', 'car_genre', 'car_genre1',
-                                       'car_genre2', 'genre'])
-
+#Effettuo il fitting dei dati di training usando un Bayesian Estimator
+model.fit(train_data, BayesianEstimator)
 print("Proprietà Rete Baeysiana rispettate:", model.check_model())
 
 
-#TOLGO LE COLONNE CON GENERE E CARATTERISTICHE
-#DAL DATASET DI TEST PER FARE IN MODO CHE LI PREDICTI
-#SOLO SULLA BASE DELLE RISPOSTE
-# predict_data.pop('genre')
-# predict_data.pop('car_genre')
-# predict_data.pop('car_genre1')
-# predict_data.pop('car_genre2')
-# print(predict_data['user_answer'])
-# print(predict_data['user_answer1'])
-# print(predict_data['user_answer2'])
-# print(predict_data['user_answer3'])
-# print(predict_data['user_answer4'])
+test = model.predict(pd.DataFrame({'answer' : ["Amaro"]}))
+print(test)
 
-# predicted = model.predict(predict_data)
-# print("PREDIZIONE DEL GENERE DATE LE DOMANDE:")
-# print(predicted)
+test_value = predict_data.pop('genre')
+predict_data.pop('char1')
+predict_data.pop('char2')
+predict_data.pop('char3')
+
+prediction = model.predict(predict_data)
+prediction = prediction['genre']
+
+count = 0
+
+print(len(prediction))
+print(len(test_value))
+
+for i in range(len(test_value)):
+    if prediction.values[i] == test_value.values[i]:
+        count+=1
+
+print(count)
+print(str(len(test_value)))
+
+percent = count * 100 / len(test_value)
+
+print(str(percent) + "%")
 
 
-
-#PROVO A PREDICTARE UN GENERE DATE LE CARATTERISTICHE
-#PRENDO L'ULTIMA RIGA DEL DATASET E CI LEVO GENERE E RISPOSTE
-#POI STAMPO IL GENERE PREDICTATO (LUI PREDICTA TUTTI I NODI DELLA RETE
-#CHE NON TROVA NEI DATI IN INPUT AL PREDICT, QUINDI IN QUESTO CASO
-#HA PREDICTATO ANCHE LE RISPOSTE
-# to_predict = dataset[181:]
-# to_predict.pop('user_answer')
-# to_predict.pop('user_answer1')
-# to_predict.pop('user_answer2')
-# to_predict.pop('user_answer3')
-# to_predict.pop('user_answer4')
-# to_predict.pop('genre')
-#
-# print(to_predict)
-#
-# predicted = model.predict(to_predict)
-# print("PREDIZIONE DEL GENERE DATE LE CARATTERISTICHE:")
-# print(predicted['genre'])
-
-pt = pd.DataFrame({'user_answer': ["Assolutamente no"], 'user_answer1': ["COD, Counter Strike, Apex Legends, League of Legends"],
-                   'user_answer2': ["Storie che ricalcano la realtà in modo crudo e veritiero, che riprendono avvenimenti realmente accaduti"], 'user_answer3': ["Nessuno"],
-                   'user_answer4': ["Terra"]}, index=[0], dtype=object)
-print(pt)
-print(model.predict(pt))
