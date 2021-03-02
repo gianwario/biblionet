@@ -1,14 +1,14 @@
 import pandas as pd
 from pgmpy.models import BayesianModel
 from pgmpy.estimators import BayesianEstimator
-from pgmpy.estimators import MaximumLikelihoodEstimator
-from random import randint
-from pgmpy.estimators import ParameterEstimator
 import math
 import networkx as nx
-import matplotlib.pyplot as plt
-from pgmpy.inference import VariableElimination
+import pickle
 
+#Funzione per salvare e aggiornare il modello in un file
+def saveModel(model):
+    save_file = open("model.obj", 'wb')
+    pickle.dump(model, save_file)
 
 #Leggo dall'excel il dataset
 excel = pd.read_excel(r'dataset/dataset.xlsx')
@@ -46,6 +46,8 @@ print("Proprietà Rete Baeysiana rispettate:", model.check_model())
 
 test = model.predict(pd.DataFrame({'answer' : ["Amaro"]}))
 print(test)
+
+saveModel(model)
 
 test_value = predict_data.pop('genre')
 predict_data.pop('char1')
