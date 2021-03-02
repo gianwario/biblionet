@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" th:href="@{~/style/questionario.css}"/>
-    <title>Libri prenotabili</title>
+    <title>Questionario di supporto</title>
 </head>
 <body>
 <div layout:fragment="contenuto-pagina" class="container" style="padding: 5%">
@@ -36,7 +36,7 @@
             </li>
         </ul>
 
-        <form method="post" action="/">
+        <form method="post" action="/preferenze-di-lettura/visualizza-risposta-questionario">
             <div class="d-flex justify-content-center">
                 <div class="tab-content" id="questions">
                     <div class="tab-pane fade show active" id="q1" role="tabpanel" aria-labelledby="q1-tab">

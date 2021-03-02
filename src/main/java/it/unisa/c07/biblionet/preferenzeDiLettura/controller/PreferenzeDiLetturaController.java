@@ -8,6 +8,7 @@ import it.unisa.c07.biblionet.model.entity.utente.Lettore;
 import it.unisa.c07.biblionet.model.entity.utente.UtenteRegistrato;
 import it.unisa.c07.biblionet.preferenzeDiLettura.service.PreferenzeDiLetturaService;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,8 +16,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import javax.script.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
+import org.python.util.PythonInterpreter;
+import org.python.core.*;
 
 /**
  * @author Alessio Casolaro
@@ -125,5 +133,32 @@ public class PreferenzeDiLetturaController {
         model.addAttribute("domanda5", listaDomande.get(4));
 
         return "questionario-supporto/visualizza-questionario-supporto";
+    }
+
+    /**
+     * Implementa la funzionalità visualizzare un questionario di supporto.
+     * @param model utilizzato per prendere l'utente loggato
+     * @return la pagina del questionario
+     */
+    @RequestMapping(value = "/visualizza-risposta-questionario", method = RequestMethod.POST)
+    public String rispostaQuestionario(final Model model,
+                                       @RequestParam("options1") final String r1,
+                                       @RequestParam("options2") final String r2,
+                                       @RequestParam("options3") final String r3,
+                                       @RequestParam("options4") final String r4,
+                                       @RequestParam("options5") final String r5) {
+
+        File f = new File("src/main/java/it/unisa/c07/biblionet/moduloIntelligenzaArtificiale/test.py");
+
+        String[] arguments = {f.getPath(), r1, r2, r3, r4, r5};
+        PythonInterpreter.initialize(System.getProperties(), System.getProperties(), arguments);
+        org.python.util.PythonInterpreter python = new org.python.util.PythonInterpreter();
+        StringWriter out = new StringWriter();
+        python.setOut(out);
+        python.execfile(f.getPath());
+        String outputStr = out.toString();
+        System.out.println(outputStr);
+
+        return "questionario-supporto/visualizza-risultati-questionario";
     }
 }
