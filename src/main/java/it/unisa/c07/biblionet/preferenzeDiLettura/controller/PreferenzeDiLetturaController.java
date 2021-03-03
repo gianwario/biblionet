@@ -144,41 +144,9 @@ public class PreferenzeDiLetturaController {
                                        @RequestParam("options4") final String r4,
                                        @RequestParam("options5") final String r5) {
 
-        File f = new File("src/main/java/it/unisa/c07/biblionet/moduloIntelligenzaArtificiale/prediction.py");
+        List<String> risposte = preferenzeDiLetturaService.getRisposte(r1, r2, r3, r4, r5);
 
-        /*String[] arguments = {f.getPath(), r1, r2, r3, r4, r5};
-        PythonInterpreter.initialize(System.getProperties(), System.getProperties(), arguments);
-        org.python.util.PythonInterpreter python = new org.python.util.PythonInterpreter();
-        StringWriter out = new StringWriter();
-        python.setOut(out);
-        python.execfile(f.getPath());
-        String outputStr = out.toString();
-        System.out.println(outputStr);*/
-
-        try (Interpreter interp = new SubInterpreter()) {
-            JepConfig jep = new JepConfig();
-            jep.addIncludePaths("./");
-            jep.addIncludePaths("C:/Users/gianm/Desktop/UNI/fia/biblionet/src/main/java/it/unisa/c07/biblionet/moduloIntelligenzaArtificiale");
-            //interp.exec("x = src/main/java/it/unisa/c07/biblionet/moduloIntelligenzaArtificiale/prediction.py.predict(arg1, arg2, arg3, arg4, arg5)");
-            interp.exec("import os");
-            interp.exec("os.chdir('src/main/java/it/unisa/c07/biblionet/moduloIntelligenzaArtificiale')");
-            interp.exec("print(os.getcwd())");
-            interp.exec("print('cane')");
-            interp.exec("print('cane')");
-            interp.exec("print('cane')");
-/*            interp.exec("import prediction");
-            interp.set("arg1", r1);
-            interp.set("arg2", r2);
-            interp.set("arg3", r3);
-            interp.set("arg4", r4);
-            interp.set("arg5", r5);
-
-            Object result1 = interp.getValue("predict(arg1, arg2, arg3, arg4, arg5)");
-            System.out.println(result1.toString());*/
-
-        } catch (JepException e) {
-            e.printStackTrace();
-        }
+        model.addAttribute("risposte", risposte);
 
         return "questionario-supporto/visualizza-risultati-questionario";
     }

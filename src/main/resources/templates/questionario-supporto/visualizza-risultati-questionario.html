@@ -1,10 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Risultati</title>
+    <title>Lista Biblioteche</title>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
+<div layout:fragment="contenuto-pagina" class="container">
 <h1>LETS GOOOOOOOOOO</h1>
+<table>
+<tr th:each="risposta : ${risposte}">
+    <td>
+        <th th:text="${risposta}"></th>
+    </td>
+</tr>
+</table>
+</div>
 </body>
 </html>

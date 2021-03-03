@@ -5,19 +5,21 @@ import math
 import networkx as nx
 import pickle
 
-#Funzione per salvare e aggiornare il modello in un file
+
+# Funzione per salvare e aggiornare il modello in un file
 def saveModel(model):
     save_file = open("model.obj", 'wb')
     pickle.dump(model, save_file)
 
-#Leggo dall'excel il dataset
+
+# Leggo dall'excel il dataset
 excel = pd.read_excel(r'dataset/dataset.xlsx')
 
-#Creo un DataFrame con una risposta, tre caratteristiche e un genere
+# Creo un DataFrame con una risposta, tre caratteristiche e un genere
 i = 0
 dataset = pd.DataFrame(columns=['answer', 'char1', 'char2', 'char3', 'genre'])
 
-#Costruisco dall'excel il dataframe, salvandomi per ogni riga una risposta, le caratteristiche e il genere
+# Costruisco dall'excel il dataframe, salvandomi per ogni riga una risposta, le caratteristiche e il genere
 for row in excel.values:
     for column in range(25):
         dataset.loc[i, 'answer'] = row[column]
@@ -29,22 +31,21 @@ for row in excel.values:
 
 print(dataset[:50])
 
-#Costruisco la rete bayesiana ANSWER -> CHARACTERISTICS -> GENRE
+# Costruisco la rete bayesiana ANSWER -> CHARACTERISTICS -> GENRE
 model = BayesianModel([('answer', 'char1'), ('answer', 'char2'), ('answer', 'char3'),
                        ('char1', 'genre'), ('char2', 'genre'), ('char3', 'genre')])
-nx.draw(model, with_labels = True)
+nx.draw(model, with_labels=True)
 
-#Prelevo il 90% dei dati per il training e il 10% è lasciato per il testing
-train_number = int(math.ceil((len(dataset) / 100) * 90))-1
+# Prelevo il 90% dei dati per il training e il 10% è lasciato per il testing
+train_number = int(math.ceil((len(dataset) / 100) * 90)) - 1
 train_data = dataset[:train_number]
 predict_data = dataset[train_number:]
 
-#Effettuo il fitting dei dati di training usando un Bayesian Estimator
+# Effettuo il fitting dei dati di training usando un Bayesian Estimator
 model.fit(train_data, BayesianEstimator)
 print("Proprietà Rete Baeysiana rispettate:", model.check_model())
 
-
-test = model.predict(pd.DataFrame({'answer' : ["Amaro"]}))
+test = model.predict(pd.DataFrame({'answer': ["Amaro"]}))
 print(test)
 
 saveModel(model)
@@ -64,7 +65,7 @@ print(len(test_value))
 
 for i in range(len(test_value)):
     if prediction.values[i] == test_value.values[i]:
-        count+=1
+        count += 1
 
 print(count)
 print(str(len(test_value)))
@@ -72,5 +73,3 @@ print(str(len(test_value)))
 percent = count * 100 / len(test_value)
 
 print(str(percent) + "%")
-
-

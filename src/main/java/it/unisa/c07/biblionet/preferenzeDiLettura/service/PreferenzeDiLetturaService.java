@@ -51,4 +51,11 @@ public interface PreferenzeDiLetturaService {
      * @return la lista di domande
      */
     List<Domanda> getDomandeCasuali();
+
+    /**
+     * Implementa la funzionalità di chiamare lo script di Python
+     * che effettua le predizioni.
+     * @return la lista di domande
+     */
+    List<String> getRisposte(String r1, String r2, String r3, String r4, String r5);
 }

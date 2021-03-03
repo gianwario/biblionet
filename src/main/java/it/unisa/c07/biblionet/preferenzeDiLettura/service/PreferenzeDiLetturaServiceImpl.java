@@ -8,6 +8,8 @@ import it.unisa.c07.biblionet.model.entity.Domanda;
 import it.unisa.c07.biblionet.model.entity.Genere;
 import it.unisa.c07.biblionet.model.entity.utente.Esperto;
 import it.unisa.c07.biblionet.model.entity.utente.Lettore;
+import it.unisa.c07.biblionet.preferenzeDiLettura.service.AIModuleAdapter.PythonAdapter;
+import it.unisa.c07.biblionet.preferenzeDiLettura.service.AIModuleAdapter.PythonAdapterImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +45,11 @@ public class PreferenzeDiLetturaServiceImpl implements
      * Si occupa delle funzioni CRUD per la domanda.
      */
     private final DomandaDAO domandaDAO;
+
+    /**
+     * Si occupa della chiamata al modulo di IA.
+     */
+    private final PythonAdapter pythonAdapter = new PythonAdapterImpl();
 
     /**
      * Implementa la funzionalità di restituire tutti i generi
@@ -119,5 +126,16 @@ public class PreferenzeDiLetturaServiceImpl implements
         return listaDomande;
     }
 
+    /**
+     * Implementa la funzionalità di chiamare lo script di Python
+     * che effettua le predizioni.
+     * @return la lista di domande
+     */
+    @Override
+    public List<String> getRisposte(String r1, String r2, String r3, String r4, String r5) {
+
+        List<String> risposte = pythonAdapter.getAIPrediction(r1, r2, r3, r4, r5);
+        return risposte;
+    }
 
 }
