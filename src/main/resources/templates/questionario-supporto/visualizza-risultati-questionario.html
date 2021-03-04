@@ -3,20 +3,46 @@
       layout:decorate="~{layout/layout}">
 <head>
     <meta charset="UTF-8">
-    <title>Lista Biblioteche</title>
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Risultati questionario</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" th:href="@{~/style/questionario.css}"/>
 </head>
 <body>
-<div layout:fragment="contenuto-pagina" class="container">
-<h1>LETS GOOOOOOOOOO</h1>
-<table>
-<tr th:each="risposta : ${risposte}">
-    <td>
-        <th th:text="${risposta}"></th>
-    </td>
-</tr>
-</table>
-</div>
+    <div layout:fragment="contenuto-pagina" class="container">
+        <h1 class="text-center" style="margin-top: 5%;">Sulla base delle tue risposte, pensiamo possa interessarti il genere...</h1>
+        <div class="d-flex justify-content-center w-100">
+            <div class="main-genre-div" th:text="${mainGenre}"></div>
+        </div>
+        <div class="d-flex justify-content-center w-100">
+            <div style="margin-top: 5%">
+                <div class="text-center">
+                    <a class="info" data-toggle="collapse" href="#suggestions" role="button" aria-expanded="false" aria-controls="suggestions">
+                        Inizia il tuo percorso in BiblioNet!
+                    </a>
+                </div>
+                <div class="collapse" id="suggestions">
+                    <div class="card card-body text-center">
+                        <p>Se ritieni giusto il consiglio, potresti aggiornare le tue</p>
+                        <p>preferenze di lettura: </p>
+                        <a class="btn btn-main" href="/preferenze-di-lettura/generi">Preferenze di lettura</a>
+                        <br>
+                        <p>Inoltre, al seguente link, troverai una serie di libri disponibili</p>
+                        <p>sulla piattaforma del genere consigliato:</p>
+                        <a class="btn btn-main" th:href="@{'/prenotazione-libri/ricerca?stringa='+${mainGenre}+'&filtro=genere'}">
+                            Visualizza libri del genere <th th:text="${mainGenre}"/>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div th:if="${otherGenres.size() != 0}">
+            <h3 class="text-center" style="margin-top: 5%;">Potrebbero interessarti anche i generi...</h3>
+            <div class="d-flex justify-content-center w-100">
+                <div class="other-genres" th:each="genre : ${otherGenres}" th:text="${genre}">
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

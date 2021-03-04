@@ -19,7 +19,10 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import java.io.File;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import org.python.util.PythonInterpreter;
 
 /**
@@ -145,8 +148,28 @@ public class PreferenzeDiLetturaController {
                                        @RequestParam("options5") final String r5) {
 
         List<String> risposte = preferenzeDiLetturaService.getRisposte(r1, r2, r3, r4, r5);
-
-        model.addAttribute("risposte", risposte);
+        HashMap<String, Integer> generi = new HashMap<>();
+        for(String g : risposte) {
+            if(generi.containsKey(g)) {
+                generi.replace(g, generi.get(g)+1);
+            } else {
+                generi.put(g, 1);
+            }
+        }
+        String mainGenre = null;
+        for(Map.Entry<String, Integer> h : generi.entrySet()) {
+            if(mainGenre == null || h.getValue() > generi.get(mainGenre)) {
+                mainGenre = h.getKey();
+            }
+        }
+        List<String> otherGenres = new ArrayList<>();
+        for(String s : risposte) {
+            if(!s.equals(mainGenre) && !otherGenres.contains(s)){
+                otherGenres.add(s);
+            }
+        }
+        model.addAttribute("mainGenre", mainGenre);
+        model.addAttribute("otherGenres", otherGenres);
 
         return "questionario-supporto/visualizza-risultati-questionario";
     }

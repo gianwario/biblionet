@@ -37,3 +37,26 @@ label.btn {
     background-color: #073763;
     border: 2px solid #073763;
 }
+
+.main-genre-div {
+    margin-top: 3%;
+    border-bottom: 4px solid #b20909;
+    color: #073763;
+    padding: 1% 4%;
+    font-size: 45px;
+    font-weight: bold;
+}
+
+.other-genres {
+    margin: 1%;
+    font-size: 24px;
+}
+
+.info{
+    width: 100%;
+    font-size: 20px;
+}
+
+.info:hover {
+    color : #b20909;
+}
