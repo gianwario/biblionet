@@ -29,24 +29,20 @@ for row in excel.values:
         dataset.loc[i, 'genre'] = row[28]
         i += 1
 
-print(dataset[:50])
-
 # Costruisco la rete bayesiana ANSWER -> CHARACTERISTICS -> GENRE
 model = BayesianModel([('answer', 'char1'), ('answer', 'char2'), ('answer', 'char3'),
                        ('char1', 'genre'), ('char2', 'genre'), ('char3', 'genre')])
 nx.draw(model, with_labels=True)
 
-# Prelevo il 90% dei dati per il training e il 10% è lasciato per il testing
-train_number = int(math.ceil((len(dataset) / 100) * 90)) - 1
+# Prelevo il 70% dei dati per il training e il 10% è lasciato per il testing
+dataset = dataset.sample(frac=1)
+train_number = int(math.ceil((len(dataset) / 100) * 70)) - 1
 train_data = dataset[:train_number]
 predict_data = dataset[train_number:]
 
 # Effettuo il fitting dei dati di training usando un Bayesian Estimator
 model.fit(train_data, BayesianEstimator)
 print("Proprietà Rete Baeysiana rispettate:", model.check_model())
-
-test = model.predict(pd.DataFrame({'answer': ["Amaro"]}))
-print(test)
 
 saveModel(model)
 
@@ -60,16 +56,11 @@ prediction = prediction['genre']
 
 count = 0
 
-print(len(prediction))
-print(len(test_value))
-
 for i in range(len(test_value)):
     if prediction.values[i] == test_value.values[i]:
         count += 1
 
-print(count)
-print(str(len(test_value)))
-
 percent = count * 100 / len(test_value)
+formatted_percent = "{:.2f}".format(percent)
 
-print(str(percent) + "%")
+print(str("Accuracy: " + formatted_percent) + "%")
