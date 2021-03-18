@@ -15,9 +15,9 @@
 # Project description
 
 📕 🎓 Our module's goal is to help new subscribers find a genre to start with. We let the user answer to 5 questions with a quiz, and then our AI will suggest
-genres that he could like.
-We achieved this with a machine learning agent, using Python, in particular we used parameter learning with Bayesian Model.
-The training dataset was built from scratch, making peopleanswer our questions with an online form.
+genres that they could like.
+We achieved this with a machine learning agent, using Python. In particular we used parameter learning with Bayesian Model.
+The training dataset was built from scratch, making people answer our questions with an online form.
 
 
 
