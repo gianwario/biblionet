@@ -32,7 +32,6 @@ for row in excel.values:
 # Costruisco la rete bayesiana ANSWER -> CHARACTERISTICS -> GENRE
 model = BayesianModel([('answer', 'char1'), ('answer', 'char2'), ('answer', 'char3'),
                        ('char1', 'genre'), ('char2', 'genre'), ('char3', 'genre')])
-nx.draw(model, with_labels=True)
 
 # Prelevo il 70% dei dati per il training e il 30% è lasciato per il testing, in modo da calcolare
 # una percentuale di accuracy. Inoltre, randomizzo le righe del dataset
