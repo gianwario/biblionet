@@ -31,7 +31,7 @@ documentation about requirement analysis and system design at the following
 ## Authors
 
 * **Stefano Lambiase**      - *Project Manager*   - [StefanoLambiase](https://github.com/StefanoLambiase)
-* **Gianmario Voria**       - *Developer*         - [yabokk](https://github.com/yabokk)
+* **Gianmario Voria**       - *Developer*         - [gianwario](https://github.com/gianwario)
 * **Viviana Pentangelo**    - *Developer*         - [vipenti](https://github.com/vipenti)
 * **Nicola Pagliara**       - *Developer*         - [Nicola-Pagliara](https://github.com/Nicola-Pagliara)
 
